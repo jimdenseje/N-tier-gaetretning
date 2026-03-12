@@ -12,3 +12,8 @@ dotnet ef migrations add InitialCreate --project "DataAccessLayer" --startup-pro
 
 ## udførelse af database migration på databasen
 dotnet ef database update --project "DataAccessLayer" --startup-project "API"
+
+## her er includeret appsettings.json
+Dette er normalt et no go.
+Inkluder aldrig følsomme oplysninger som forbindelsesstrenge eller hemmelige nøgler i din kodebase.
+Gem dem i stedet et sikker sted, som i dine miljøvariabler eller i en hemmelig nøgle manager.
