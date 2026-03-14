@@ -1,6 +1,7 @@
 ﻿using Models;
 using Microsoft.EntityFrameworkCore;
 using DataAccessLayer.Interfaces;
+using System.ComponentModel;
 
 namespace DataAccessLayer.Repositories
 {
@@ -35,6 +36,11 @@ namespace DataAccessLayer.Repositories
             _context.Scores.Add(item);
             await _context.SaveChangesAsync();
             return item;
+        }
+
+        public bool GetScoreByUserAndChallengeAsync(User user, DailyChallenge dailyChallenge)
+        {
+            return _context.Scores.AnyAsync(s => s.UserId == user.Id && s.DailyChallengeId == dailyChallenge.Id).Result;
         }
     }
 }

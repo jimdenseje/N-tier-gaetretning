@@ -17,5 +17,12 @@ namespace BusinessLogicLayer.Services
         {
             return await _ageGroupRepository.GetAllAsync();
         }
+
+        public AgeGroup GetAgeGroupIdByAge(short age)
+        {
+            var ageGroups = _ageGroupRepository.GetAllAsync().Result;
+            return ageGroups.FirstOrDefault(ag => age >= ag.MinAge && age <= ag.MaxAge) 
+                ?? throw new ArgumentException("No age group found for the given age.");
+        }
     }
 }

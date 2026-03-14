@@ -41,7 +41,6 @@ namespace BusinessLogicLayer.Services
             };
 
             await _dailyChallengeRepository.AddAsync(newChallenge);
-            await _dailyChallengeRepository.SaveChangesAsync();
 
             return newChallenge;
         }

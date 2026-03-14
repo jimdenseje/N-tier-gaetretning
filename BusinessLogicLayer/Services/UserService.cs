@@ -8,10 +8,14 @@ namespace BusinessLogicLayer.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IAgeGroupService _ageGroupService;
 
-        public UserService(IUserRepository userRepository)
-        {
+        public UserService(
+            IUserRepository userRepository,
+            IAgeGroupService ageGroupService
+        ) {
             _userRepository = userRepository;
+            _ageGroupService = ageGroupService;
         }
 
         public async Task<IEnumerable<UserDto>> GetAllUsersAsync()

@@ -5,5 +5,6 @@ namespace BusinessLogicLayer.Interfaces
     public interface IAgeGroupService
     {
         Task<IEnumerable<AgeGroup>> GetAllAgeGroupsAsync();
+        AgeGroup GetAgeGroupIdByAge(short age);
     }
 }

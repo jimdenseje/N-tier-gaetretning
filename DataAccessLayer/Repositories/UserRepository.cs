@@ -27,5 +27,11 @@ namespace DataAccessLayer.Repositories
         {
             return _context.Users.FirstOrDefault(u => u.Id == userid);
         }
+
+        public async Task AddAsync(User user)
+        {
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
+        }
     }
 }

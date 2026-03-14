@@ -8,6 +8,5 @@ namespace DataAccessLayer.Interfaces
         Task<IEnumerable<DailyChallenge>> GetAllAsync();
         Task AddAsync(DailyChallenge item);
         Task<DailyChallenge?> FirstOrDefaultAsync(Expression<Func<DailyChallenge, bool>> predicate);
-        Task SaveChangesAsync();
     }
 }

@@ -109,6 +109,9 @@ namespace BusinessLogicLayer.Services
             if (user == null)
                 throw new InvalidOperationException("User not found");
 
+            if (_scoreRepository.GetScoreByUserAndChallengeAsync(user, challenge))
+                throw new InvalidOperationException("User has already submitted a score for today's challenge");
+
             // Create the score
             var score = new Score
             {

@@ -22,6 +22,7 @@ namespace DataAccessLayer.Repositories
         public async Task AddAsync(DailyChallenge item)
         {
             await _context.DailyChallenges.AddAsync(item);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<DailyChallenge?> FirstOrDefaultAsync(Expression<Func<DailyChallenge, bool>> predicate)
@@ -29,9 +30,5 @@ namespace DataAccessLayer.Repositories
             return await _context.DailyChallenges.FirstOrDefaultAsync(predicate);
         }
 
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
     }
 }

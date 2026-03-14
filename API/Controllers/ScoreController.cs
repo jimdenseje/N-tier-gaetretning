@@ -44,9 +44,9 @@ namespace API.Controllers
                 var score = await _scoreService.AddScoreAsync(dto, int.Parse(userId));
                 return CreatedAtAction(nameof(GetScores), new { id = score.Id }, score);
             }
-            catch (ArgumentException ex)
+            catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { message = ex.Message });
             }
         }
     }
