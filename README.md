@@ -1,7 +1,7 @@
 # N-tier-gaetretning
 Dette er et skole project.
 
-##hvad kunne man have gjord bedre
+## hvad kunne man have gjord bedre
 Kun have brugt DTO'er i Business Logik Laget
 
 ## Vigtigt i forholdet til migration over flere projecter i en solution
