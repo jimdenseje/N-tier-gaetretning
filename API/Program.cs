@@ -93,14 +93,63 @@ namespace API
             // Register AuthService separately since it doesn't have a corresponding repository
             builder.Services.AddScoped<IAuthService, AuthService>();
 
+            // Add OpenApi security definition for JWT Bearer
+            builder.Services.AddOpenApi(options =>
+            {
+                options.AddDocumentTransformer((document, context, cancellationToken) =>
+                {
+                    document.Components ??= new Microsoft.OpenApi.Models.OpenApiComponents();
+
+                    document.Components.SecuritySchemes["Bearer"] =
+                        new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                        {
+                            Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+                            Scheme = "bearer",
+                            BearerFormat = "JWT",
+                            In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+                            Name = "Authorization"
+                        };
+
+                    return Task.CompletedTask;
+                });
+            });
+
+            // Add OpenApi required for Authorize endpoints
+            builder.Services.AddOpenApi(options =>
+            {
+                options.AddOperationTransformer((operation, context, cancellationToken) =>
+                {
+                    var hasAuthorize =
+                        context.Description.ActionDescriptor.EndpointMetadata
+                            .OfType<Microsoft.AspNetCore.Authorization.AuthorizeAttribute>()
+                            .Any();
+
+                    if (hasAuthorize)
+                    {
+                        operation.Security ??= new List<Microsoft.OpenApi.Models.OpenApiSecurityRequirement>();
+
+                        operation.Security.Add(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+                        {
+                            [new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                            {
+                                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                                {
+                                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                }
+                            }] = new List<string>()
+                        });
+                    }
+
+                    return Task.CompletedTask;
+                });
+            });
+
             // Build the app
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.MapOpenApi();
-            }
+            app.MapOpenApi();
 
             // Enable HTTPS redirection
             app.UseHttpsRedirection();
